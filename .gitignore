@@ -1,2 +1,3 @@
-myenv
-myenvc
+.env
+venv
+__pycache__
