@@ -19,7 +19,10 @@ Base = declarative_base()
 
 def connection():
     try:
-        conn = psycopg2.connect(host= settings.database_host,database = settings.database_name, user= settings.database_user,password = settings.database_pass, cursor_factory= RealDictCursor)                             #(host, database, user, password)
+        print(33232432123)
+        print(settings.database_host, settings.database_name, settings.database_user, settings.database_pass)   
+
+        conn = psycopg2.connect(host= settings.database_host,database = settings.database_name, user= settings.database_user,password =settings.database_pass, cursor_factory= RealDictCursor)                             #(host, database, user, password)
         cursor = conn.cursor()
         print('the database connection was sucessfull')
         return cursor, conn

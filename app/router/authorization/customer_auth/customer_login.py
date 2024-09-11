@@ -11,9 +11,9 @@ router = APIRouter(
     tags = ['Auth']
 )
 
-@router.post('/admin')
+@router.post('/customer')
 def login(user_details: schemas.UserLoginDetails,):
-    query = sql.SQL("SELECT * FROM {} where email = %s").format(sql.Identifier('admin-user'))
+    query = sql.SQL("SELECT * FROM {} where email = %s").format(sql.Identifier('customer_user'))
     cursor.execute(query, (user_details.email,))
     result = cursor.fetchone()
     print(result)
@@ -27,6 +27,6 @@ def login(user_details: schemas.UserLoginDetails,):
     # create a token and return a token
     #pip install python-jose[cryptography]
     # go to ..oauth.py
-    access_token = oauth2_admin.create_access_token(data = {"user_id":result['email']})
+    access_token = oauth2_customers.create_access_token(data = {"user_id":result['email']})
     conn.close()
-    return {"access_token": access_token, "token_type": "bearer"} 
+    return {"access_token": access_token, "token_type": "bearer"}

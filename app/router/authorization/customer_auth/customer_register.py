@@ -16,10 +16,10 @@ router = APIRouter(
 cursor, conn = database.connection()
 
 
-@router.post('/admin')
+@router.post('/customer')
 def register(user_details: schemas.UserRegisterDetails):
     print(user_details)
-    query = sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)").format(sql.Identifier('admin-user'))
+    query = sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)").format(sql.Identifier('customer_user'))
     cursor.execute(query, (str(uuid.uuid4()), user_details.email,utils.hash_password(user_details.password),))
     conn.commit()
     conn.close()

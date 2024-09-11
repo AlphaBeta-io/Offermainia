@@ -13,7 +13,7 @@ router = APIRouter(
 
 @router.post('/admin')
 def login(user_details: schemas.UserLoginDetails,):
-    query = sql.SQL("SELECT * FROM {} where email = %s").format(sql.Identifier('admin-user'))
+    query = sql.SQL("SELECT * FROM {} where email = %s").format(sql.Identifier('admin_user'))
     cursor.execute(query, (user_details.email,))
     result = cursor.fetchone()
     print(result)
