@@ -13,14 +13,17 @@ router = APIRouter(
     tags = ['Auth']
 )
 
-cursor, conn = database.connection()
+
 
 
 @router.post('/customer')
 def register(user_details: schemas.UserRegisterDetails):
-    print(user_details)
-    query = sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)").format(sql.Identifier('customer_user'))
-    cursor.execute(query, (str(uuid.uuid4()), user_details.email,utils.hash_password(user_details.password),))
-    conn.commit()
-    conn.close()
-    return{"message": "hello world"}    
+    try:
+        cursor, conn = database.connection()
+        query = sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)").format(sql.Identifier('customer_user'))
+        cursor.execute(query, (str(uuid.uuid4()), user_details.email,utils.hash_password(user_details.password),))
+        conn.commit()
+        conn.close()
+        return Response({"message": "Successfully Registered "}, status_code=status.HTTP_200_OK)
+    except Exception as e:
+        return HTTPException(status_code= status.HTTP_500_INTERNAL_SERVER_ERROR, detail= f"Internal Server Error: {e}")
