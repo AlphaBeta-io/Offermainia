@@ -1,7 +1,7 @@
 import time
 from fastapi import FastAPI
 from app import models
-from app.router import login, register
+from app.router.authorization.admin_auth import register, login
 import psycopg2
 from .config import settings
 
