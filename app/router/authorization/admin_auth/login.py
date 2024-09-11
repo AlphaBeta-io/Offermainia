@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException, Response
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 
-from ....oauth2 import oauth2_merchent #check line 10 
+from ....oauth2 import oauth2_admin #check line 10 
 from .... import schemas, models, database, utils
 from psycopg2 import sql
 
