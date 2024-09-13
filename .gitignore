@@ -2,3 +2,5 @@
 venv
 __pycache__
 myenv
+db_password.txt
+secret_key.txt
