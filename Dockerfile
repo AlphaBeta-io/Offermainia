@@ -34,9 +34,9 @@ RUN adduser \
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
 # into this layer.
-RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    python -m pip install -r requirements.txt
 
+COPY requirements.txt .
+RUN python -m pip install -r requirements.txt
 # Switch to the non-privileged user to run the application.
 USER appuser
 
@@ -44,8 +44,8 @@ USER appuser
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 9000
+EXPOSE 8080
 
 # Run the application.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
 

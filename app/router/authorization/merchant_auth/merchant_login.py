@@ -23,7 +23,7 @@ def login(user_details: schemas.UserLoginDetails,):
         if not utils.verify(user_details.password, result['password']):
             raise HTTPException(status_code= status.HTTP_403_FORBIDDEN, detail = f"Invalid Credentials")
         access_token = oauth2_merchent.create_access_token(data = {"user_id":result['email']})
-        return Response({"access_token": access_token, "token_type": "bearer"}, status_code= status.HTTP_200_OK) 
+        return Response(content={"access_token": access_token, "token_type": "bearer"}, status_code= status.HTTP_200_OK) 
     except Exception as e:
         return HTTPException(status_code= status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Internal Server Error: {e}")
     finally:

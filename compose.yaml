@@ -5,7 +5,7 @@ services:
     build:
       context: .
     ports:
-      - "9000:9000"  # Expose your app on port 9000
+      - "8080:8080"  # Expose your app on port 9000
     depends_on:
       db:
         condition: service_healthy
