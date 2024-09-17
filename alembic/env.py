@@ -1,9 +1,12 @@
+import os
+from dotenv import load_dotenv
+from sqlalchemy import engine_from_config, pool
+from alembic import context
 from logging.config import fileConfig
 from app.models import Base
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
 
-from alembic import context
+# Load the .env file into environment variables
+load_dotenv()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -11,8 +14,22 @@ config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+fileConfig(config.config_file_name)
+
+# Get environment variables for database connection
+DATABASE_HOST = os.getenv('DATABASE_HOST')
+DATABASE_NAME = os.getenv('DATABASE_NAME')
+DATABASE_USER = os.getenv('DATABASE_USER')
+DATABASE_PASS = os.getenv('DATABASE_PASS')
+
+# Construct the SQLAlchemy connection string
+connection_url = f'postgresql://{DATABASE_USER}:{DATABASE_PASS}@{DATABASE_HOST}/{DATABASE_NAME}'
+
+# Set connection string dynamically in Alembic config
+config.set_main_option('sqlalchemy.url', connection_url)
+
+# Rest of your env.py code...
+
 
 # add your model's MetaData object here
 # for 'autogenerate' support

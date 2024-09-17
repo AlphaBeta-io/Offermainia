@@ -45,10 +45,12 @@ def verify_access_token(token: str, credentials_exception):
 #this functrions checks wether the user is 
 def get_current_user(token:str = Depends(oauth2_scheme)):
     cursor, conn = database.connection()
+    print(token)
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail= f'Could not validate credentials', headers = {"WWW-Auhenticate": "Bearer"})
     token = verify_access_token(token, credentials_exception)
     # query = db.query(models.User).filter(models.User.id == token.id).first()
-    query = sql.SQL("SELECT id FROM {} AS adu WHERE adu.id = token.id").format(sql.Identifier('customer_user'))
-    cursor.execute(query)
+    print(token)
+    query = sql.SQL("SELECT id FROM {} AS adu WHERE adu.id = %s").format(sql.Identifier('customer_user'))
+    cursor.execute(query, (token.id,))
     admin_user= cursor.fetchall()
     return admin_user

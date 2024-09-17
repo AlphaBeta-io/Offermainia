@@ -39,6 +39,7 @@ def verify_access_token(token: str, credentials_exception):
         token_data = schemas.TokenData(id = id)
     except Exception as e:
         return HTTPException(status_code= status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
+    print(token_data)
     return token_data
 
 
@@ -49,7 +50,8 @@ def get_current_user(token:str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail= f'Could not validate credentials', headers = {"WWW-Auhenticate": "Bearer"})
     token = verify_access_token(token, credentials_exception)
     # query = db.query(models.User).filter(models.User.id == token.id).first()
-    query = sql.SQL("SELECT id FROM {} AS adu WHERE adu.id = token.id").format(sql.Identifier('admin_user'))
-    cursor.execute(query)
+    query = sql.SQL("SELECT id FROM {} AS adu WHERE adu.id = %s").format(sql.Identifier('admin_user'))
+    cursor.execute(query,(token.id,))
     admin_user= cursor.fetchall()
+    print(1,admin_user)
     return admin_user

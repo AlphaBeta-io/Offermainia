@@ -12,3 +12,6 @@ class UserLoginDetails(BaseModel):
 class UserRegisterDetails(UserLoginDetails):
     confirm_password: str
     newsletter: Boolean
+
+class TokenData(BaseModel):
+    id: str
